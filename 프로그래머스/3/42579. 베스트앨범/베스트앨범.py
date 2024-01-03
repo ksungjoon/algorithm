@@ -1,22 +1,20 @@
+from collections import defaultdict
 def solution(genres, plays):
-    result = []
-    playlst = {}
-    for i in range(len(genres)):
-        if genres[i] not in playlst:
-            playlst[genres[i]]=[(i,plays[i])]
+    answer = []
+    genres_count = defaultdict(int)
+    genres_play = defaultdict(list)
+    i = 0
+    for g, p in zip(genres, plays):
+        genres_count[g] += p
+        genres_play[g].append((p, i))
+        i += 1
+    genres_order = sorted(genres_count, key= lambda k: -genres_count[k])
+    for g in genres_order:
+        temp = genres_play[g]
+        temp.sort(key= lambda x: (-x[0], x[1]))
+        if len(temp) > 1:
+            answer.append(temp[0][1])
+            answer.append(temp[1][1])
         else:
-            playlst[genres[i]].append((i,plays[i]))
-
-    for idx, songs in playlst.items():
-        playlst[idx] = sorted(songs, key=lambda x: x[1], reverse=True)
-
-    sorted_playlst = sorted(playlst.items(), key=lambda x: sum(song[1] for song in x[1]), reverse=True)
-    
-    for j in sorted_playlst:
-        if len(j[1]) >= 2:
-            result.append(j[1][0][0])
-            result.append(j[1][1][0])
-        else:
-            result.append(j[1][0][0])
-        
-    return result
+            answer.append(temp[0][1])
+    return answer
