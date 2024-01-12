@@ -1,4 +1,7 @@
 from collections import deque
+import sys 
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
 
 N,M = map(int,input().split())
 lst = list([0]*N for _ in range(N))
