@@ -1,16 +1,17 @@
-from collections import defaultdict
+from collections import Counter
 
 def solution(topping):
     answer = 0
-    A = defaultdict(int)
-    B = defaultdict(int)
+    dic = Counter(topping)
+    set_dic = set()
+    answer = 0
+
     for i in topping:
-        A[i]+=1
-    for i in topping:
-        B[i]+=1
-        A[i]-=1
-        if A[i]==0:
-            del A[i]
-        if len(B)==len(A):
-            answer+=1
+        dic[i] -= 1
+        set_dic.add(i)
+        if dic[i] == 0:
+            del dic[i]
+        if len(dic) == len(set_dic):
+            answer += 1
+
     return answer
